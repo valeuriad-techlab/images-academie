@@ -1,6 +1,6 @@
 # Organisation du dépôt
 
-Le dépôt git (images-academie)[https://github.com/valeuriad-techlab/images-academie] contient :
+Le dépôt git [images-academie](https://github.com/valeuriad-techlab/images-academie) contient :
 
   * TODO
 
