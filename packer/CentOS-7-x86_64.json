@@ -20,9 +20,9 @@
     "iso_checksum_type": "sha256",
 
     "communicator": "ssh",
-    "ssh_username": "formation",
-    "ssh_password": "formation",
-    "ssh_wait_timeout": "15m",
+    "ssh_username": "root",
+    "ssh_password": "root",
+    "ssh_wait_timeout": "20m",
 
     "memory": 1024,
     "cpus": 1,
@@ -43,5 +43,23 @@
     "shutdown_timeout": "2m",
 
     "format": "ova"
-  }]
+  }],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "yum update -y",
+        "yum install -y ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "staging_directory": "/root/provisionning",
+      "playbook_dir": "provisionning-playbooks",
+      "playbook_files": [
+        "provisionning-playbooks/formation.yml"
+      ]
+    }
+  ]
 }

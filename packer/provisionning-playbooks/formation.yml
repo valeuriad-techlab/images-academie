@@ -1,0 +1,6 @@
+---
+# Ce playbook sert à provisionner une VM de formation simple
+
+- hosts: 127.0.0.1
+  roles:
+    - user-formation

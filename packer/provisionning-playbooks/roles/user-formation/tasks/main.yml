@@ -1,0 +1,33 @@
+---
+# Ce rôle a pour but de préparer l'utilisateur de formation (au sens du user Linux)
+
+- name: "Groupe de formation"
+  group:
+    name: formation
+    state: present
+
+- name: "Utilisateur de formation"
+  user:
+    name: formation
+    comment: compte de formation
+    group: formation
+    shell: "/bin/bash"
+    generate_ssh_key: yes
+    append: yes
+    groups:
+      - wheel
+
+- name: "Prompt dans .bashrc"
+  lineinfile:
+    path: "/home/formation/.bashrc"
+    regexp: '^export PS1='
+    line: 'export PS1="\[\033[38;5;39m\][\t]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\u\[$(tput sgr0)\]\[\033[38;5;13m\]@\H\[$(tput sgr0)\]\[\033[38;5;15m\]:\W> \[$(tput sgr0)\]"'
+
+- name: "Sudoer sans mot de passe"
+  lineinfile:
+    dest: "/etc/sudoers.d/formation"
+    state: present
+    create: yes
+    regexp: '^formation ALL='
+    line: 'formation ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'

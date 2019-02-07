@@ -7,7 +7,36 @@ Packer et VirtualBox pour créer les VM, et sur Ansible pour automatiser la conf
 
 Le dépôt git [images-academie](https://github.com/valeuriad-techlab/images-academie) contient :
 
-  * TODO
+    │   .gitignore # Configuré pour éviter de publier sur Git les fichiers
+    │              # temporaires de Packer, l'exécutable Packer, les fichiers de l'IDE etc.                                   
+    │   README.md  # La documentation que vous êtes en train de lire
+    │
+    ├───doc               # Un répertoire où ranger la documentation complémentaire (notamment pour les personnes formées)
+    │       schemas.pptx  # Des diapositibes pour expliquer le fonctionnement de Packer en schémas
+    │
+    └───packer                      # Le répertoire principal du projet
+        │   anaconda-ks.cfg         # Un fichier Kickstart pour automatiser la construction d'une VM CentOS 7
+        │   CentOS-7-x86_64.json    # Un fichier Packer pour créer une VM CentOS 7 de formation de base
+        │   (packer.exe)            # Vous pouvez installer l'exécutable Packer ici, ou bien le mettre sur le PATH
+        │   validate.sh             # Un script utilitaire pour vérifier les fichiers Kickstart et Packer
+        │
+        ├───install
+        │       LINUX_install-packer-and-virtualbox.yml  # Un playbook pour automatiser l'installation de
+        │                                                # VirtualBox et de Packer sur une machine CentOS/RHEL 7 
+        │
+        ├───(output-virtualbox-iso) # Le répertoire où Packer publiera la VM une fois buildée
+        │       (*.ova)             # Vous pouvez configurer le type OVA pour obtenir des fichiers d'archive de VM
+        │
+        ├───(packer_cache)          # Le répertoire où Packer téléchargera l'ISO qui sert à construire la VM 
+        │       (*.iso)             # Pensez à purger les fichiers ISO dont vous n'avez plus besoin...
+        │
+        └───provisionning-playbooks # Un répertoire contenant tout le nécessaire pour provisionner correctement la VM
+            │   formation.yml       # Le playbook pour une VM de base sans fioritures
+            │
+            └───roles                  # Les playbooks peuvent s'appuyer sur des rôles standardisés rangés ici
+                └───user-formation     # Ce rôle standardise la manière de configurer l'utilisateur de formation
+                    └───tasks
+                            main.yml
 
 # Prérequis
 
