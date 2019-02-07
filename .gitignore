@@ -2,3 +2,11 @@
 .idea/
 out/
 *.iml
+
+# Packer
+packer.exe
+output-virtualbox-iso/
+packer_cache/
+
+# MS Office
+~*.pptx

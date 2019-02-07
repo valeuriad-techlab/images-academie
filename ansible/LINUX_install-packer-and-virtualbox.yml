@@ -1,0 +1,125 @@
+---
+# Ce playbook sert à installer Packer sur une machine Linux de type RHEL/CentOS 7
+# Auteur : Noël Bardelot
+
+- hosts: 127.0.0.1
+  become: true # on exécute tout en tant que root
+  vars:
+    packer_download_url: 'https://releases.hashicorp.com/packer/1.3.4/packer_1.3.4_linux_amd64.zip'
+    installation_dir: '/opt/packer'
+    installation_archive: 'packer_1.3.4_linux_amd64.zip'
+    virtualbox_repo_url: "http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch"
+    virtualbox_gpg_key_url: 'https://www.virtualbox.org/download/oracle_vbox.asc'
+  tasks:
+
+    - name: "Fournir unzip pour le module unarchive d'Ansible"
+      package:
+        name: unzip
+        state: present
+
+    - name: "Groupe pour packer"
+      group:
+        name: packer
+        state: present
+
+    - name: "Utilisateur pour packer"
+      user:
+        name: packer
+        comment: packer
+        group: packer
+        append: yes
+        groups:
+          - wheel
+
+    - name: "Create installation directory"
+      file:
+        path: "{{ installation_dir }}"
+        state: directory
+        owner: packer
+        group: packer
+        mode: "u=rwx,g=rx,o="
+
+    - name: "Packer déjà téléchargé ?"
+      stat:
+        path: "{{ installation_dir }}/{{ installation_archive }}"
+      register: packer_zip
+
+    - name: "Download Packer"
+      get_url:
+        url: "{{ packer_download_url }}"
+        dest: "{{ installation_dir }}"
+        mode: "u=rw,g=r,o="
+        owner: packer
+        group: packer
+      when: packer_zip.stat.exists == False
+
+    - name: "Packer déjà installé ?"
+      stat:
+        path: "{{ installation_dir }}/packer"
+      register: packer_bin
+
+    - name: "Extraction du ZIP packer"
+      unarchive:
+        src: "{{ installation_dir }}/{{ installation_archive }}"
+        dest: "{{ installation_dir }}"
+        mode: "u=rwx,g=rx,o="
+        owner: packer
+        group: packer
+      when: packer_bin.stat.exists == False
+
+    # Nota : on met packer avant le reste car il y a un conflit avec libcrack
+    # Cf. https://github.com/cracklib/cracklib/issues/7
+    - name: "Ajout de packer au PATH dans le .bashrc de l'utilisateur Packer"
+      lineinfile:
+        path: "/home/packer/.bashrc"
+        line: 'export PATH={{ installation_dir }}:$PATH # ajouté automatiquement par Ansible, ne pas modifier'
+
+    - name: "Dépôt de Oracle pour installer VirtualBox"
+      yum_repository:
+        name: "virtualbox"
+        description: "Oracle Linux / RHEL / CentOS-$releasever / $basearch - VirtualBox"
+        baseurl: "{{ virtualbox_repo_url }}"
+
+    - name: "Clé GPG de Oracle active pour yum"
+      rpm_key:
+        state: present
+        key: "{{ virtualbox_gpg_key_url }}"
+
+    - name: "Fournir VirtualBox (version alignée sur celle qu'on installe sur les postes Windows)"
+      package:
+        name: VirtualBox-5.2.x86_64
+        state: present
+
+    - name: "Utilisateur pour packer dans le groupe virtualbox"
+      user:
+        name: packer
+        append: yes
+        groups:
+          - vboxusers
+
+    - name: "Fournir le dépôt EPEL pour certains des paquets en prérequis ci-dessous"
+      package:
+        name: epel-release
+        state: present
+
+    - name: "Fournir les paquets nécessaires pour compiler le module virtualbox du kernel"
+      package:
+        name:
+          - gcc
+          - dkms
+          - make
+          - kernel-devel
+          - kernel-headers
+          - bzip2
+        state: present
+
+    - name: "Fournir pykickstart qui permet de vérifier les fichiers KickStart"
+      package:
+        name: pykickstart
+        state: present
+
+    - name: "Rendre le script de validation exécutable"
+      file:
+        path: ./validate.sh
+        state: file
+        mode: "u=rwx,g=rx,o="

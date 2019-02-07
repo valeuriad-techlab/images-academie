@@ -1,0 +1,47 @@
+
+{
+  "_titre_1": " Fichier de configuration Packer pour construire une VM CentOS 7 minimale   ",
+  "_titre_2": " Auteur : Noël Bardelot                                                     ",
+  "_titre_3": " WINDOWS : si vous avez installé VirtualBox sous Windows, vous pouvez       ",
+  "_titre_4": "           simplement télécharger le binaire packer.exe et exécuter un      ",
+  "_titre_5": "           build avec ce fichier.                                           ",
+  "_titre_6": " LINUX   : cf. les indications dans le README.md, vous devez avoir installé ",
+  "_titre_7": "           Packer et VirtualBox. Vous pouvez vous aider du playbook dédié   ",
+  "_titre_8": "           install-packer-and-virtualbox.yml après avoir installé Ansible.  ",
+
+  "_ssh": "Il faut que l'utilisateur et le mot de passe correspondent à ce qui est configuré dans anaconda-ks.cfg",
+
+  "builders": [{
+    "type": "virtualbox-iso",
+
+    "guest_os_type": "RedHat_64",
+    "iso_url": "http://ftp.pasteur.fr/mirrors/CentOS/7/isos/x86_64/CentOS-7-x86_64-NetInstall-1810.iso",
+    "iso_checksum": "19d94274ef856c4dfcacb2e7cfe4be73e442a71dd65cc3fb6e46db826040b56e",
+    "iso_checksum_type": "sha256",
+
+    "communicator": "ssh",
+    "ssh_username": "formation",
+    "ssh_password": "formation",
+    "ssh_wait_timeout": "15m",
+
+    "memory": 1024,
+    "cpus": 1,
+    "disk_size": 10240,
+
+    "boot_command": [
+      "<esc>",
+      "<wait>",
+      "linux inst.noninteractive inst.cmdline inst.keymap=fr inst.lang=fr_FR.UTF-8 inst.ks=hd:/dev/fd0:anaconda-ks.cfg",
+      "<enter>"
+    ],
+    "boot_wait": "5s",
+    "floppy_files": [
+      "anaconda-ks.cfg"
+    ],
+
+    "shutdown_command": "echo 'formation' | sudo -S shutdown -P now",
+    "shutdown_timeout": "2m",
+
+    "format": "ova"
+  }]
+}
