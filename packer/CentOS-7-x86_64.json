@@ -1,13 +1,13 @@
 
 {
-  "_titre_1": " Fichier de configuration Packer pour construire une VM CentOS 7 minimale   ",
-  "_titre_2": " Auteur : Noël Bardelot                                                     ",
-  "_titre_3": " WINDOWS : si vous avez installé VirtualBox sous Windows, vous pouvez       ",
-  "_titre_4": "           simplement télécharger le binaire packer.exe et exécuter un      ",
-  "_titre_5": "           build avec ce fichier.                                           ",
-  "_titre_6": " LINUX   : cf. les indications dans le README.md, vous devez avoir installé ",
-  "_titre_7": "           Packer et VirtualBox. Vous pouvez vous aider du playbook dédié   ",
-  "_titre_8": "           install-packer-and-virtualbox.yml après avoir installé Ansible.  ",
+  "_titre_1": " Fichier de configuration Packer pour construire une VM CentOS 7 minimale         ",
+  "_titre_2": " Auteur : Noël Bardelot                                                           ",
+  "_titre_3": " WINDOWS : si vous avez installé VirtualBox sous Windows, vous pouvez             ",
+  "_titre_4": "           simplement télécharger le binaire packer.exe et exécuter un            ",
+  "_titre_5": "           build avec ce fichier.                                                 ",
+  "_titre_6": " LINUX   : cf. les indications dans le README.md, vous devez avoir installé       ",
+  "_titre_7": "           Packer et VirtualBox. Vous pouvez vous aider du playbook dédié         ",
+  "_titre_8": "           LINUX_install-packer-and-virtualbox.yml après avoir installé Ansible.  ",
 
   "_ssh": "Il faut que l'utilisateur et le mot de passe correspondent à ce qui est configuré dans anaconda-ks.cfg",
 
