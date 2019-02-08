@@ -7,6 +7,8 @@ out/
 packer.exe
 output-virtualbox-iso/
 packer_cache/
+*.ova
+*.iso
 
 # MS Office
 ~*.pptx
