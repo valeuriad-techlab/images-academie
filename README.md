@@ -71,7 +71,7 @@ Vous pouvez installer Ansible depuis vos dépôts de paquets habituels. Par exem
     
 ### (Linux) Etape 2 : clone le projet Git et exécuter le playbook d'installation de VirtualBox et de Packer
 
-Le playbook est disponible dans le dossier `ansible`, et il s'exécute de la manière suivante :
+Le playbook est disponible dans le dossier `packer/install`, et il s'exécute de la manière suivante :
 
     ansible-playbook -K LINUX_install-packer-and-virtualbox.yml
     
