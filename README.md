@@ -12,7 +12,7 @@ Le dépôt git [images-academie](https://github.com/valeuriad-techlab/images-aca
     │   README.md  # La documentation que vous êtes en train de lire
     │
     ├───doc               # Un répertoire où ranger la documentation complémentaire (notamment pour les personnes formées)
-    │       schemas.pptx  # Des diapositibes pour expliquer le fonctionnement de Packer en schémas
+    │       schemas.pptx  # Des diapositives pour expliquer le fonctionnement de Packer en schémas
     │
     └───packer                      # Le répertoire principal du projet
         │   anaconda-ks.cfg         # Un fichier Kickstart pour automatiser la construction d'une VM CentOS 7
