@@ -3,6 +3,10 @@
 L'objectif de ce projet est de permettre la construction automatisée de VM pour les formations. Il s'appuie sur 
 Packer et VirtualBox pour créer les VM, et sur Ansible pour automatiser la configuration.
 
+TODO :
+
+  * décliner l'image principale pour faire des images spécialisées pour les stacks techniques des formations
+
 # Organisation du dépôt
 
 Le dépôt git [images-academie](https://github.com/valeuriad-techlab/images-academie) contient :
